@@ -52,8 +52,8 @@ php artisan vendor:publish --tag="laravel-momo-views"
 ## Usage
 
 ```php
-$laravelMomo = new Akika\LaravelMomo();
-echo $laravelMomo->echoPhrase('Hello, Akika!');
+$moMo = new Akika\MoMo();
+echo $moMo->echoPhrase('Hello, Akika!');
 ```
 
 ## Testing

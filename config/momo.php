@@ -1,6 +1,6 @@
 <?php
 
-// config for Akika/LaravelMomo
+// config for Akika/MoMo
 return [
 
 ];

@@ -1,10 +1,10 @@
 <?php
 
-namespace Akika\LaravelMomo\Tests;
+namespace Akika\MoMo\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Akika\LaravelMomo\LaravelMomoServiceProvider;
+use Akika\MoMo\MoMoServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,14 +13,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Akika\\LaravelMomo\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Akika\\MoMo\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            LaravelMomoServiceProvider::class,
+            MoMoServiceProvider::class,
         ];
     }
 

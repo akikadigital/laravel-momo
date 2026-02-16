@@ -1,12 +1,12 @@
 <?php
 
-namespace Akika\LaravelMomo;
+namespace Akika\MoMo;
 
-use Akika\LaravelMomo\Commands\LaravelMomoCommand;
+use Akika\MoMo\Commands\MoMoCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class LaravelMomoServiceProvider extends PackageServiceProvider
+class MoMoServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -18,6 +18,6 @@ class LaravelMomoServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-momo')
             ->hasConfigFile()
-            ->hasCommand(LaravelMomoCommand::class);
+            ->hasCommand(MoMoCommand::class);
     }
 }

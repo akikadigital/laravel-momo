@@ -34,13 +34,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Akika\\LaravelMomo\\": "src/",
-            "Akika\\LaravelMomo\\Database\\Factories\\": "database/factories/"
+            "Akika\\MoMo\\": "src/",
+            "Akika\\MoMo\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Akika\\LaravelMomo\\Tests\\": "tests/",
+            "Akika\\MoMo\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -65,10 +65,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Akika\\LaravelMomo\\LaravelMomoServiceProvider"
+                "Akika\\MoMo\\MoMoServiceProvider"
             ],
             "aliases": {
-                "LaravelMomo": "Akika\\LaravelMomo\\Facades\\LaravelMomo"
+                "MoMo": "Akika\\MoMo\\Facades\\MoMo"
             }
         }
     },

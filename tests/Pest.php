@@ -1,5 +1,5 @@
 <?php
 
-use Akika\LaravelMomo\Tests\TestCase;
+use Akika\MoMo\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
