@@ -2,9 +2,9 @@
 
 namespace Akika\LaravelMomo;
 
+use Akika\LaravelMomo\Commands\LaravelMomoCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Akika\LaravelMomo\Commands\LaravelMomoCommand;
 
 class LaravelMomoServiceProvider extends PackageServiceProvider
 {
@@ -18,8 +18,6 @@ class LaravelMomoServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-momo')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel_momo_table')
             ->hasCommand(LaravelMomoCommand::class);
     }
 }
