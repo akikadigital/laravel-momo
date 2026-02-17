@@ -2,17 +2,17 @@
 
 namespace Akika\MoMo\Tests\Actions;
 
-use Akika\MoMo\Actions\CreateApiUserAction;
+use Akika\MoMo\Actions\GetApiUserAction;
 use Akika\MoMo\Tests\TestCase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
-class CreateApiUserActionTest extends TestCase
+class GetApiUserActionTest extends TestCase
 {
-    public string $secondaryKey;
+    public string $env;
 
-    public string $xReferenceId;
+    public string $secondaryKey;
 
     public string $callbackHost;
 
@@ -22,24 +22,28 @@ class CreateApiUserActionTest extends TestCase
     {
         parent::setUp();
 
-        $env = fake()->randomElement(['sandbox', 'production']);
+        $this->env = $env = fake()->randomElement(['sandbox', 'production']);
         Config::set('momo.env', $env);
         Config::set("momo.{$env}.secondary_key", $this->secondaryKey = fake()->uuid());
-        Config::set("momo.{$env}.user_reference_id", $this->xReferenceId = fake()->uuid());
+        Config::set("momo.{$env}.user_reference_id", $xReferenceId = fake()->uuid());
         Config::set('momo.provider_callback_host', $this->callbackHost = fake()->domainName());
         Config::set("momo.{$env}.base_url", $baseUrl = fake()->url());
 
-        $path = Config::string('momo.url_paths.create_api_user');
+        $path = Config::string('momo.url_paths.get_api_user');
+        $path = str_replace('{referenceId}', $xReferenceId, $path);
         $this->url = $baseUrl.$path;
     }
 
-    public function test_can_create_an_api_user(): void
+    public function test_can_get_api_user(): void
     {
         Http::fake([
-            $this->url => Http::response('', 201),
+            $this->url => Http::response([
+                'providerCallbackHost' => $this->callbackHost,
+                'targetEnvironment' => $this->env,
+            ], 200),
         ]);
 
-        (new CreateApiUserAction)();
+        $response = (new GetApiUserAction)();
 
         /** @var Request */
         $request = null;
@@ -51,7 +55,8 @@ class CreateApiUserActionTest extends TestCase
 
         $this->assertEquals($this->url, $request->url());
         $this->assertTrue($request->hasHeader('Ocp-Apim-Subscription-Key', $this->secondaryKey));
-        $this->assertTrue($request->hasHeader('X-Reference-Id', $this->xReferenceId));
-        $this->assertEquals($this->callbackHost, $request['providerCallbackHost']);
+        $this->assertEquals($this->url, $request->url());
+        $this->assertEquals($this->callbackHost, $response['providerCallbackHost']);
+        $this->assertEquals($this->env, $response['targetEnvironment']);
     }
 }
