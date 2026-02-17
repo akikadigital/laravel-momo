@@ -2,6 +2,7 @@
 files=$(git diff --cached --name-only --diff-filter=ACM -- '*.php');
 vendor/bin/pint $files -q
 
-git add $files
-
 vendor/bin/phpstan --memory-limit=2G
+composer run rector:dry-run || exit 1
+
+git add $files
