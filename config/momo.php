@@ -33,4 +33,13 @@ return [
         'create_api_key' => env('MOMO_CREATE_API_KEY_URL_PATH', '/v1_0/apiuser/{referenceId}/apikey'),
     ],
 
+    /**
+     * Automatically deposit funds to multiple users
+     * https://momodeveloper.mtn.com/API-collections#api=disbursement
+     */
+    'disbursement' => [
+        'url_paths' => [
+            'create_access_token' => env('MOMO_DISBURSMENT_CREATE_ACCESS_TOKEN_URL_PATH', '/disbursement/token/'),
+        ],
+    ],
 ];

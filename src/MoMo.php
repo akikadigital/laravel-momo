@@ -5,6 +5,7 @@ namespace Akika\MoMo;
 use Akika\MoMo\Actions\CreateApiKeyAction;
 use Akika\MoMo\Actions\CreateApiUserAction;
 use Akika\MoMo\Actions\GetApiUserAction;
+use Akika\MoMo\Products\Disbursement;
 
 class MoMo
 {
@@ -22,5 +23,10 @@ class MoMo
     public function createApiKey(): string
     {
         return (new CreateApiKeyAction)();
+    }
+
+    public function disbursement(): Disbursement
+    {
+        return new Disbursement;
     }
 }
