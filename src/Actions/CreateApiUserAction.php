@@ -30,10 +30,11 @@ class CreateApiUserAction
 
     public function __invoke(): void
     {
-        Http::withHeaders([
-            'Ocp-Apim-Subscription-Key' => $this->secondaryKey,
-            'X-Reference-Id' => $this->xReferenceId,
-        ])
+        Http::acceptJson()
+            ->withHeaders([
+                'Ocp-Apim-Subscription-Key' => $this->secondaryKey,
+                'X-Reference-Id' => $this->xReferenceId,
+            ])
             ->post($this->url, [
                 'providerCallbackHost' => $this->callbackHost,
             ])
