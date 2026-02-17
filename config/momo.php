@@ -38,8 +38,12 @@ return [
      * https://momodeveloper.mtn.com/API-collections#api=disbursement
      */
     'disbursement' => [
+        'callback_url' => env('MOMO_DISBURSEMENT_CALLBACK_URL'),
+
         'url_paths' => [
             'create_access_token' => env('MOMO_DISBURSMENT_CREATE_ACCESS_TOKEN_URL_PATH', '/disbursement/token/'),
+            'transfer' => env('MOMO_DISBURSMENT_TRANSFER_URL_PATH', '/disbursement/v1_0/transfer'),
+            'get_transfer_status' => env('MOMO_DISBURSMENT_GEl_TRANSFER_STATUS_URL_PATH', '/disbursement/v1_0/transfer/{referenceId}'),
         ],
     ],
 ];
