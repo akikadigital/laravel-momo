@@ -13,6 +13,8 @@ return [
 
         // Format - UUID. Resource ID for the API user to be created. UUID version 4 is required.
         'user_reference_id' => env('MOMO_PRODUCTION_USER_REFERENCE_ID'),
+
+        'api_key' => env('MOMO_PRODUCTION_API_KEY'),
     ],
 
     'sandbox' => [
@@ -21,6 +23,8 @@ return [
 
         // Format - UUID. Resource ID for the API user. UUID version 4 is required.
         'user_reference_id' => env('MOMO_SANDBOX_USER_REFERENCE_ID'),
+
+        'api_key' => env('MOMO_SANDBOX_API_KEY'),
     ],
 
     'url_paths' => [

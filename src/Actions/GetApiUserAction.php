@@ -2,24 +2,20 @@
 
 namespace Akika\MoMo\Actions;
 
+use Akika\MoMo\Config\MoMoConfig;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 class GetApiUserAction
 {
-    public string $secondaryKey;
-
     public string $url;
 
-    public function __construct()
+    public function __construct(public MoMoConfig $moMoConfig = new MoMoConfig)
     {
-        $env = Config::string('momo.env');
-        $this->secondaryKey = Config::string("momo.{$env}.secondary_key");
-        $xReferenceId = Config::string("momo.{$env}.user_reference_id");
-
         $path = Config::string('momo.url_paths.get_api_user');
-        $path = str_replace('{referenceId}', $xReferenceId, $path);
+        $path = str_replace('{referenceId}', $this->moMoConfig->getUserReferenceId(), $path);
 
+        $env = Config::string('momo.env');
         $baseUrl = Config::string("momo.{$env}.base_url");
         $this->url = $baseUrl.$path;
     }
@@ -29,7 +25,7 @@ class GetApiUserAction
     {
         /** @var array<string, string> */
         $response = Http::acceptJson()
-            ->withHeader('Ocp-Apim-Subscription-Key', $this->secondaryKey)
+            ->withHeader('Ocp-Apim-Subscription-Key', $this->moMoConfig->getSecondaryKey())
             ->get($this->url)
             ->throw()
             ->json();
