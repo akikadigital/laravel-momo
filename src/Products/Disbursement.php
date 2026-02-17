@@ -4,6 +4,7 @@ namespace Akika\MoMo\Products;
 
 use Akika\MoMo\Actions\Disbursment\CreateAccessTokenAction;
 use Akika\MoMo\Actions\Disbursment\GetAccessTokenAction;
+use Akika\MoMo\Actions\Disbursment\GetTransferStatusAction;
 use Akika\MoMo\Actions\Disbursment\TransferAction;
 use Akika\MoMo\Enums\Currency;
 
@@ -37,5 +38,11 @@ class Disbursement
             $payeeMessage,
             $payeeNote,
         );
+    }
+
+    /** @return array<string, string|array<string, string>> */
+    public function getTransferStatus(string $referenceId): array
+    {
+        return (new GetTransferStatusAction)($this->getAccessToken(), $referenceId);
     }
 }
