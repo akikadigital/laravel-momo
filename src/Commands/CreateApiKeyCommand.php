@@ -2,21 +2,21 @@
 
 namespace Akika\MoMo\Commands;
 
-use Akika\MoMo\Actions\CreateApiUserAction;
+use Akika\MoMo\Actions\CreateApiKeyAction;
 use Akika\MoMo\Config\MoMoConfig;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 
 use function Laravel\Prompts\text;
 
-class CreateApiUserCommand extends Command
+class CreateApiKeyCommand extends Command
 {
-    public $signature = 'momo:create-api-user
+    public $signature = 'momo:create-api-key
                          {--Y|no-confirmation : Proceed without asking for confirmation}
                          {--secondary-key= : If not provided, this will pick from your .env config.}
                          {--user-reference-id= : (uuid V4) If not provided, this will pick from your .env config.}';
 
-    public $description = 'Create an API User using the configured Secondary Key and Reference Id.';
+    public $description = 'Create an API Key using the configured Secondary Key and Reference Id.';
 
     public function handle(): int
     {
@@ -26,7 +26,13 @@ class CreateApiUserCommand extends Command
             return self::FAILURE;
         }
 
-        (new CreateApiUserAction($moMoConfig))();
+        $apiKey = (new CreateApiKeyAction($moMoConfig))();
+
+        $this->info('API key generated successfully.\n');
+        $this->line('Add this API key to your .env file:');
+
+        $envKey = 'MOMO_'.strtoupper(Config::string('momo.env')).'_API_KEY';
+        $this->info("{$envKey}={$apiKey}");
 
         return self::SUCCESS;
     }
