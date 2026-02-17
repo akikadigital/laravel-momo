@@ -33,10 +33,10 @@ class TransferAction
         string $accessToken,
         float $amount,
         Currency $currency,
-        ?string $externalId,
-        ?string $payeeMsisdn,
-        ?string $payeeMessage,
-        ?string $payeeNote,
+        ?string $externalId = null,
+        ?string $payeeMsisdn = null,
+        ?string $payerMessage = null,
+        ?string $payeeNote = null,
     ): string {
         $referenceId = Str::uuid()->toString();
 
@@ -47,7 +47,7 @@ class TransferAction
             'payee' => $payeeMsisdn
                 ? ['partyIdType' => 'MSISDN', 'partyId' => $payeeMsisdn]
                 : null,
-            'payeeMessage' => $payeeMessage,
+            'payerMessage' => $payerMessage,
             'payeeNote' => $payeeNote,
         ]);
 

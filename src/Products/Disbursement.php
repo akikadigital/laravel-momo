@@ -24,10 +24,10 @@ class Disbursement
     public function transfer(
         float $amount,
         Currency $currency,
-        ?string $externalId,
-        ?string $payeeMsisdn,
-        ?string $payeeMessage,
-        ?string $payeeNote,
+        ?string $externalId = null,
+        ?string $payeeMsisdn = null,
+        ?string $payerMessage = null,
+        ?string $payeeNote = null,
     ): string {
         return (new TransferAction)(
             $this->getAccessToken(),
@@ -35,7 +35,7 @@ class Disbursement
             $currency,
             $externalId,
             $payeeMsisdn,
-            $payeeMessage,
+            $payerMessage,
             $payeeNote,
         );
     }
