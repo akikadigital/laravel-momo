@@ -51,7 +51,6 @@ class TransferAction
             'payeeNote' => $payeeNote,
         ]);
 
-        /** @var string */
         Http::acceptJson()
             ->withToken($accessToken)
             ->withHeaders([

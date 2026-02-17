@@ -14,7 +14,8 @@ class CreateApiUserCommand extends Command
 
     public function handle(): int
     {
-        $requiresConfirmation = ! $this->hasOption('no-confirmation');
+        /** @var bool */
+        $requiresConfirmation = $this->hasOption('no-confirmation');
 
         $env = Config::string('momo.env');
         $secondaryKey = Config::string("momo.{$env}.secondary_key");
