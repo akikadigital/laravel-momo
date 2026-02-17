@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Config;
 
 class CreateApiUserCommand extends Command
 {
-    public $signature = 'momo:create-api-user {-Y|no-confirmation}';
+    public $signature = 'momo:create-api-user {--Y|no-confirmation}';
 
     public $description = 'Create an API User using the configured Reference Id in the .env file.';
 
     public function handle(): int
     {
         /** @var bool */
-        $requiresConfirmation = $this->hasOption('no-confirmation');
+        $noConfirmation = $this->option('no-confirmation');
 
         $env = Config::string('momo.env');
         $secondaryKey = Config::string("momo.{$env}.secondary_key");
@@ -26,8 +26,8 @@ class CreateApiUserCommand extends Command
         $this->line("Secondary Key: {$secondaryKey}");
         $this->line("User Reference ID: {$xReferenceId}");
 
-        if ($requiresConfirmation && ! $this->confirm('Proceed?')) {
-            return self::SUCCESS;
+        if (! $noConfirmation && ! $this->confirm('Proceed?')) {
+            return self::FAILURE;
         }
 
         (new CreateApiUserAction)();
