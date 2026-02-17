@@ -2,6 +2,7 @@
 
 namespace Akika\MoMo\Actions\Disbursment;
 
+use Akika\MoMo\Config\MoMoConfig;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
@@ -9,19 +10,15 @@ class GetTransferStatusAction
 {
     public string $env;
 
-    public string $secondaryKey;
-
     public string $path;
 
     public string $url;
 
-    public function __construct()
+    public function __construct(public MoMoConfig $moMoConfig = new MoMoConfig)
     {
         $this->env = Config::string('momo.env');
-        $this->secondaryKey = Config::string("momo.{$this->env}.secondary_key");
-
-        $path = Config::string('momo.disbursement.url_paths.get_transfer_status');
         $baseUrl = Config::string("momo.{$this->env}.base_url");
+        $path = Config::string('momo.disbursement.url_paths.get_transfer_status');
         $this->url = $baseUrl.$path;
     }
 
@@ -36,7 +33,7 @@ class GetTransferStatusAction
         $response = Http::acceptJson()
             ->withToken($accessToken)
             ->withHeaders([
-                'Ocp-Apim-Subscription-Key' => $this->secondaryKey,
+                'Ocp-Apim-Subscription-Key' => $this->moMoConfig->getSecondaryKey(),
                 'X-Target-Environment' => $this->env,
             ])
             ->get($this->url)

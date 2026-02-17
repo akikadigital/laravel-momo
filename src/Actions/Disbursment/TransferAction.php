@@ -2,6 +2,7 @@
 
 namespace Akika\MoMo\Actions\Disbursment;
 
+use Akika\MoMo\Config\MoMoConfig;
 use Akika\MoMo\Enums\Currency;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
@@ -11,19 +12,15 @@ class TransferAction
 {
     public string $env;
 
-    public string $secondaryKey;
-
     public string $callbackUrl;
 
     public string $url;
 
-    public function __construct()
+    public function __construct(public MoMoConfig $moMoConfig = new MoMoConfig)
     {
-        $this->env = Config::string('momo.env');
-        $this->secondaryKey = Config::string("momo.{$this->env}.secondary_key");
-
         $this->callbackUrl = Config::string('momo.disbursement.callback_url');
 
+        $this->env = Config::string('momo.env');
         $baseUrl = Config::string("momo.{$this->env}.base_url");
         $path = Config::string('momo.disbursement.url_paths.transfer');
         $this->url = $baseUrl.$path;
@@ -54,7 +51,7 @@ class TransferAction
         Http::acceptJson()
             ->withToken($accessToken)
             ->withHeaders([
-                'Ocp-Apim-Subscription-Key' => $this->secondaryKey,
+                'Ocp-Apim-Subscription-Key' => $this->moMoConfig->getSecondaryKey(),
                 'X-Callback-Url' => $this->callbackUrl,
                 'X-Reference-Id' => $referenceId,
                 'X-Target-Environment' => $this->env,

@@ -2,23 +2,17 @@
 
 namespace Akika\MoMo\Actions\Disbursment;
 
+use Akika\MoMo\Config\MoMoConfig;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 class CreateAccessTokenAction
 {
-    public string $secondaryKey;
-
-    public string $xReferenceId;
-
     public string $url;
 
-    public function __construct()
+    public function __construct(public MoMoConfig $moMoConfig = new MoMoConfig)
     {
         $env = Config::string('momo.env');
-        $this->secondaryKey = Config::string("momo.{$env}.secondary_key");
-        $this->xReferenceId = Config::string("momo.{$env}.user_reference_id");
-
         $baseUrl = Config::string("momo.{$env}.base_url");
         $path = Config::string('momo.disbursement.url_paths.create_access_token');
         $this->url = $baseUrl.$path;
@@ -29,8 +23,8 @@ class CreateAccessTokenAction
     {
         /** @var array<string, string|int> */
         $response = Http::acceptJson()
-            ->withBasicAuth($this->xReferenceId, $this->secondaryKey)
-            ->withHeader('Ocp-Apim-Subscription-Key', $this->secondaryKey)
+            ->withBasicAuth($this->moMoConfig->getUserReferenceId(), $this->moMoConfig->getApiKey())
+            ->withHeader('Ocp-Apim-Subscription-Key', $this->moMoConfig->getSecondaryKey())
             ->post($this->url)
             ->throw()
             ->json();

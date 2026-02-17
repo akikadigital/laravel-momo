@@ -50,6 +50,6 @@ class MoMo
 
     public function disbursement(): Disbursement
     {
-        return new Disbursement;
+        return new Disbursement($this->moMoConfig);
     }
 }

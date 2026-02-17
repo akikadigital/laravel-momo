@@ -7,11 +7,11 @@ use UnexpectedValueException;
 
 class MoMoConfig
 {
-    private string $env;
+    private readonly string $env;
 
     public function __construct(
-        private ?string $secondaryKey = null,
-        private ?string $userReferenceId = null,
+        private readonly ?string $secondaryKey = null,
+        private readonly ?string $userReferenceId = null,
         private ?string $apiKey = null,
     ) {
         $this->env = Config::string('momo.env');
