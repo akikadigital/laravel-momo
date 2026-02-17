@@ -14,6 +14,8 @@ class CreateAccessTokenActionTest extends TestCase
 
     public string $xReferenceId;
 
+    public string $apiKey;
+
     public string $callbackHost;
 
     public string $url;
@@ -26,6 +28,7 @@ class CreateAccessTokenActionTest extends TestCase
         Config::set('momo.env', $env);
         Config::set("momo.{$env}.secondary_key", $this->secondaryKey = fake()->uuid());
         Config::set("momo.{$env}.user_reference_id", $this->xReferenceId = fake()->uuid());
+        Config::set("momo.{$env}.api_key", $this->apiKey = fake()->uuid());
         Config::set('momo.provider_callback_host', $this->callbackHost = fake()->domainName());
         Config::set("momo.{$env}.base_url", $baseUrl = fake()->url());
 
@@ -58,7 +61,7 @@ class CreateAccessTokenActionTest extends TestCase
         $this->assertEquals($this->url, $request->url());
         $this->assertTrue($request->hasHeader('Ocp-Apim-Subscription-Key', $this->secondaryKey));
 
-        $token = base64_encode("{$this->xReferenceId}:{$this->secondaryKey}");
+        $token = base64_encode("{$this->xReferenceId}:{$this->apiKey}");
         $this->assertEquals("Basic {$token}", $request->header('Authorization')[0]);
         $this->assertEquals($body, $response);
     }
