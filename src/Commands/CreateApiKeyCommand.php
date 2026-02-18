@@ -28,11 +28,10 @@ class CreateApiKeyCommand extends Command
 
         $apiKey = (new CreateApiKeyAction($moMoConfig))();
 
-        $this->info('API key generated successfully.\n');
-        $this->line('Add this API key to your .env file:');
+        $this->info('API key generated successfully. Add this API key to your .env file:');
 
         $envKey = 'MOMO_'.strtoupper(Config::string('momo.env')).'_API_KEY';
-        $this->info("{$envKey}={$apiKey}");
+        $this->info("\t{$envKey}={$apiKey}");
 
         return self::SUCCESS;
     }
@@ -71,7 +70,7 @@ class CreateApiKeyCommand extends Command
     public function confirmed(MoMoConfig $moMoConfig): bool
     {
         $env = Config::string('momo.env');
-        $this->line('Creating an API User:');
+        $this->line('Creating an API Key:');
         $this->line("env: {$env}");
         $this->line('Secondary Key: '.$moMoConfig->getSecondaryKey());
         $this->line('User Reference ID: '.$moMoConfig->getUserReferenceId());

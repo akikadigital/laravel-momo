@@ -2,6 +2,7 @@
 
 namespace Akika\MoMo;
 
+use Akika\MoMo\Commands\CreateApiKeyCommand;
 use Akika\MoMo\Commands\CreateApiUserCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -18,6 +19,7 @@ class MoMoServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-momo')
             ->hasConfigFile()
-            ->hasCommand(CreateApiUserCommand::class);
+            ->hasCommand(CreateApiUserCommand::class)
+            ->hasCommand(CreateApiKeyCommand::class);
     }
 }
