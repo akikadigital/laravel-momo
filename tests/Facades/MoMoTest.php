@@ -136,4 +136,19 @@ class MoMoTest extends TestCase
 
         $this->assertInstanceOf(Disbursement::class, $disbursement);
     }
+
+    public function test_can_override_momo_config(): void
+    {
+        $disbursement = MoMo::with(
+            $secondaryKey = fake()->uuid(),
+            $userReferenceId = fake()->uuid(),
+            $apiKey = fake()->uuid(),
+        )
+            ->disbursement();
+
+        $this->assertInstanceOf(Disbursement::class, $disbursement);
+        $this->assertEquals($secondaryKey, $disbursement->moMoConfig->getSecondaryKey());
+        $this->assertEquals($userReferenceId, $disbursement->moMoConfig->getUserReferenceId());
+        $this->assertEquals($apiKey, $disbursement->moMoConfig->getApiKey());
+    }
 }

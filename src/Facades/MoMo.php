@@ -6,6 +6,7 @@ use Akika\MoMo\Products\Disbursement;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @method static \Akika\MoMo\MoMo with(?string $secondaryKey = null, ?string $userReferenceId = null, ?string $apiKey = null)
  * @method static void createApiUser()
  * @method static array<string, string> getApiUser()
  * @method static string createApiKey()
