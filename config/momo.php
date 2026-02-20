@@ -7,8 +7,11 @@ return [
 
     'provider_callback_host' => env('MOMO_CALLBACK_HOST'),
 
+    /**
+     * https://momodeveloper.mtn.com/API-collections#api=disbursement&operation=bc-authorize
+     */
     'production' => [
-        'base_url' => env('MOMO_PRODUCTION_BASE_URL'),
+        'base_url' => env('MOMO_PRODUCTION_BASE_URL', 'https://proxy.momoapi.mtn.com'),
         'secondary_key' => env('MOMO_PRODUCTION_SECONDARY_KEY'),
 
         // Format - UUID. Resource ID for the API user to be created. UUID version 4 is required.
@@ -17,6 +20,9 @@ return [
         'api_key' => env('MOMO_PRODUCTION_API_KEY'),
     ],
 
+    /**
+     * https://momoapi.mtn.com/API-collections#api=disbursement&operation=bc-authorize-POST
+     */
     'sandbox' => [
         'base_url' => env('MOMO_SANDBOX_BASE_URL', 'https://sandbox.momodeveloper.mtn.com'),
         'secondary_key' => env('MOMO_SANDBOX_SECONDARY_KEY'),
