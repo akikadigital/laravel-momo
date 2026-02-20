@@ -41,9 +41,10 @@ class CreateApiUserCommandTest extends TestCase
     {
         $this->artisan('momo:create-api-user -Y')
             ->expectsOutput('Creating an API User:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$this->secondaryKey}")
-            ->expectsOutput("User Reference ID: {$this->xReferenceId}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$this->secondaryKey}")
+            ->expectsOutput("    User Reference ID: {$this->xReferenceId}")
+            ->expectsOutput('Done.')
             ->assertSuccessful();
     }
 
@@ -56,9 +57,10 @@ class CreateApiUserCommandTest extends TestCase
         ];
         $this->artisan('momo:create-api-user', $params)
             ->expectsOutput('Creating an API User:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$params['--secondary-key']}")
-            ->expectsOutput("User Reference ID: {$params['--user-reference-id']}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$params['--secondary-key']}")
+            ->expectsOutput("    User Reference ID: {$params['--user-reference-id']}")
+            ->expectsOutput('Done.')
             ->assertSuccessful();
     }
 
@@ -70,10 +72,11 @@ class CreateApiUserCommandTest extends TestCase
         ];
         $this->artisan('momo:create-api-user', $params)
             ->expectsOutput('Creating an API User:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$params['--secondary-key']}")
-            ->expectsOutput("User Reference ID: {$params['--user-reference-id']}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$params['--secondary-key']}")
+            ->expectsOutput("    User Reference ID: {$params['--user-reference-id']}")
             ->expectsConfirmation('Proceed?', 'yes')
+            ->expectsOutput('Done.')
             ->assertSuccessful();
     }
 
@@ -85,9 +88,9 @@ class CreateApiUserCommandTest extends TestCase
         ];
         $this->artisan('momo:create-api-user', $params)
             ->expectsOutput('Creating an API User:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$params['--secondary-key']}")
-            ->expectsOutput("User Reference ID: {$params['--user-reference-id']}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$params['--secondary-key']}")
+            ->expectsOutput("    User Reference ID: {$params['--user-reference-id']}")
             ->expectsConfirmation('Proceed?', 'no')
             ->assertFailed();
     }
@@ -99,12 +102,13 @@ class CreateApiUserCommandTest extends TestCase
 
         $this->artisan('momo:create-api-user')
             ->expectsOutput('Creating an API User:')
-            ->expectsQuestion('Enter the Secondary Key?', $secondaryKey)
-            ->expectsQuestion('Enter the User Reference ID?', $xReferenceId)
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$secondaryKey}")
-            ->expectsOutput("User Reference ID: {$xReferenceId}")
+            ->expectsQuestion('Enter the Secondary Key:', $secondaryKey)
+            ->expectsQuestion('Enter the User Reference ID:', $xReferenceId)
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$secondaryKey}")
+            ->expectsOutput("    User Reference ID: {$xReferenceId}")
             ->expectsConfirmation('Proceed?', 'yes')
+            ->expectsOutput('Done.')
             ->assertSuccessful();
     }
 }

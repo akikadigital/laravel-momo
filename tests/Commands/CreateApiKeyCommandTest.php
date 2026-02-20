@@ -47,11 +47,11 @@ class CreateApiKeyCommandTest extends TestCase
 
         $this->artisan('momo:create-api-key -Y')
             ->expectsOutput('Creating an API Key:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$this->secondaryKey}")
-            ->expectsOutput("User Reference ID: {$this->xReferenceId}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$this->secondaryKey}")
+            ->expectsOutput("    User Reference ID: {$this->xReferenceId}")
             ->expectsOutput('API key generated successfully. Add this API key to your .env file:')
-            ->expectsOutput("\t{$this->envKey}={$apiKey}")
+            ->expectsOutput("    {$this->envKey}={$apiKey}")
             ->assertSuccessful();
     }
 
@@ -71,11 +71,11 @@ class CreateApiKeyCommandTest extends TestCase
 
         $this->artisan('momo:create-api-key', $params)
             ->expectsOutput('Creating an API Key:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$secondaryKey}")
-            ->expectsOutput("User Reference ID: {$xReferenceId}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$secondaryKey}")
+            ->expectsOutput("    User Reference ID: {$xReferenceId}")
             ->expectsOutput('API key generated successfully. Add this API key to your .env file:')
-            ->expectsOutput("\t{$this->envKey}={$apiKey}")
+            ->expectsOutput("    {$this->envKey}={$apiKey}")
             ->assertSuccessful();
     }
 
@@ -94,12 +94,12 @@ class CreateApiKeyCommandTest extends TestCase
 
         $this->artisan('momo:create-api-key', $params)
             ->expectsOutput('Creating an API Key:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$secondaryKey}")
-            ->expectsOutput("User Reference ID: {$xReferenceId}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$secondaryKey}")
+            ->expectsOutput("    User Reference ID: {$xReferenceId}")
             ->expectsConfirmation('Proceed?', 'yes')
             ->expectsOutput('API key generated successfully. Add this API key to your .env file:')
-            ->expectsOutput("\t{$this->envKey}={$apiKey}")
+            ->expectsOutput("    {$this->envKey}={$apiKey}")
             ->assertSuccessful();
     }
 
@@ -112,9 +112,9 @@ class CreateApiKeyCommandTest extends TestCase
 
         $this->artisan('momo:create-api-key', $params)
             ->expectsOutput('Creating an API Key:')
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$secondaryKey}")
-            ->expectsOutput("User Reference ID: {$xReferenceId}")
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$secondaryKey}")
+            ->expectsOutput("    User Reference ID: {$xReferenceId}")
             ->expectsConfirmation('Proceed?', 'no')
             ->assertFailed();
     }
@@ -132,14 +132,14 @@ class CreateApiKeyCommandTest extends TestCase
 
         $this->artisan('momo:create-api-key')
             ->expectsOutput('Creating an API Key:')
-            ->expectsQuestion('Enter the Secondary Key?', $secondaryKey)
-            ->expectsQuestion('Enter the User Reference ID?', $xReferenceId)
-            ->expectsOutput("env: {$this->env}")
-            ->expectsOutput("Secondary Key: {$secondaryKey}")
-            ->expectsOutput("User Reference ID: {$xReferenceId}")
+            ->expectsQuestion('Enter the Secondary Key:', $secondaryKey)
+            ->expectsQuestion('Enter the User Reference ID:', $xReferenceId)
+            ->expectsOutput("    env: {$this->env}")
+            ->expectsOutput("    Secondary Key: {$secondaryKey}")
+            ->expectsOutput("    User Reference ID: {$xReferenceId}")
             ->expectsConfirmation('Proceed?', 'yes')
             ->expectsOutput('API key generated successfully. Add this API key to your .env file:')
-            ->expectsOutput("\t{$this->envKey}={$apiKey}")
+            ->expectsOutput("    {$this->envKey}={$apiKey}")
             ->assertSuccessful();
     }
 }

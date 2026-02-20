@@ -28,6 +28,8 @@ class CreateApiUserCommand extends Command
 
         (new CreateApiUserAction($moMoConfig))();
 
+        $this->info('Done.');
+
         return self::SUCCESS;
     }
 
@@ -46,13 +48,14 @@ class CreateApiUserCommand extends Command
             $secondaryKey ??= Config::string("momo.{$env}.secondary_key");
             $xReferenceId ??= Config::string("momo.{$env}.user_reference_id");
         } else {
-            $secondaryKey ??= text(label: 'Enter the Secondary Key?',
+            $secondaryKey ??= text(label: 'Enter the Secondary Key:',
                 default: Config::string("momo.{$env}.secondary_key"),
                 required: true,
             );
-            $xReferenceId ??= text(label: 'Enter the User Reference ID?',
+            $xReferenceId ??= text(label: 'Enter the User Reference ID:',
                 default: Config::string("momo.{$env}.user_reference_id"),
                 required: true,
+                hint: 'Use a valid UUIDv4',
             );
         }
 
@@ -66,9 +69,9 @@ class CreateApiUserCommand extends Command
     {
         $env = Config::string('momo.env');
         $this->line('Creating an API User:');
-        $this->line("env: {$env}");
-        $this->line('Secondary Key: '.$moMoConfig->getSecondaryKey());
-        $this->line('User Reference ID: '.$moMoConfig->getUserReferenceId());
+        $this->line("    env: {$env}");
+        $this->line('    Secondary Key: '.$moMoConfig->getSecondaryKey());
+        $this->line('    User Reference ID: '.$moMoConfig->getUserReferenceId());
 
         /** @var bool */
         $noConfirmation = $this->option('no-confirmation');
