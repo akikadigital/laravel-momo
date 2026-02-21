@@ -49,12 +49,6 @@ MOMO_PRODUCTION_API_KEY=your_api_key_here   # set after running the create-api-k
 > Note:  
 > When using `sandbox` mode, test using the Euro (EUR) currency, as that is the only currency that seems to work in sandbox mode.
 
-Minimum variables to set for the `production` environment:
-
-```bash
-
-```
-
 For production, set `MOMO_ENV=production`.
 
 The full config file is at [config/momo.php](config/momo.php).
