@@ -2,14 +2,14 @@
 
 namespace Akika\MoMo\Tests\Actions\Disbursement;
 
-use Akika\MoMo\Actions\Disbursment\GetTransferStatusAction;
+use Akika\MoMo\Actions\Disbursment\GetAccountBalanceAction;
 use Akika\MoMo\Enums\Currency;
 use Akika\MoMo\Tests\TestCase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
-class GetTransferStatusActionTest extends TestCase
+class GetAccountBalanceActionTest extends TestCase
 {
     public string $env;
 
@@ -27,32 +27,20 @@ class GetTransferStatusActionTest extends TestCase
         Config::set("momo.{$env}.user_reference_id", fake()->uuid());
         Config::set("momo.{$env}.base_url", $baseUrl = fake()->url());
 
-        $path = Config::string('momo.disbursement.url_paths.get_transfer_status');
+        $path = Config::string('momo.disbursement.url_paths.get_account_balance');
         $this->url = $baseUrl.$path;
     }
 
-    public function test_can_get_transfer_status(): void
+    public function test_can_get_account_balance(): void
     {
         // ===========================================================================
         // Initialize data
         // ===========================================================================
         $body = [
-            'amount' => fake()->randomNumber(),
+            'availableBalance' => strval(fake()->randomNumber(4)),
             'currency' => fake()->randomElement(Currency::cases())->value,
-            'financialTransactionId' => fake()->uuid(),
-            'externalId' => fake()->uuid(),
-            'payee' => [
-                'partyIdType' => 'MSISDN',
-                'partyId' => fake()->randomNumber(),
-            ],
-            'payerMessage' => fake()->sentence(),
-            'payeeNote' => fake()->sentence(),
-            'status' => 'SUCCESSFUL',
         ];
-
         $accessToken = fake()->uuid();
-        $tReferenceId = fake()->uuid();
-        $this->url = str_replace('{referenceId}', $tReferenceId, $this->url);
 
         // ===========================================================================
         // Setup the environment
@@ -64,7 +52,7 @@ class GetTransferStatusActionTest extends TestCase
         // ===========================================================================
         // Run the block of code in question
         // ===========================================================================
-        $response = (new GetTransferStatusAction)($accessToken, $tReferenceId);
+        $response = (new GetAccountBalanceAction)($accessToken);
 
         // ===========================================================================
         // Make assertions

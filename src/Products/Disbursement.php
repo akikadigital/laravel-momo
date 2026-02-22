@@ -4,6 +4,7 @@ namespace Akika\MoMo\Products;
 
 use Akika\MoMo\Actions\Disbursment\CreateAccessTokenAction;
 use Akika\MoMo\Actions\Disbursment\GetAccessTokenAction;
+use Akika\MoMo\Actions\Disbursment\GetAccountBalanceAction;
 use Akika\MoMo\Actions\Disbursment\GetTransferStatusAction;
 use Akika\MoMo\Actions\Disbursment\TransferAction;
 use Akika\MoMo\Config\MoMoConfig;
@@ -47,5 +48,11 @@ class Disbursement
     public function getTransferStatus(string $referenceId): array
     {
         return (new GetTransferStatusAction($this->moMoConfig))($this->getAccessToken(), $referenceId);
+    }
+
+    /** @return array<string, string> */
+    public function getAccountBalance(): array
+    {
+        return (new GetAccountBalanceAction($this->moMoConfig))($this->getAccessToken());
     }
 }

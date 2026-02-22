@@ -41,6 +41,7 @@ return [
 
         // referenceId - UUID. Resource ID for the API user. UUID version 4 is required.
         'create_api_key' => env('MOMO_CREATE_API_KEY_URL_PATH', '/v1_0/apiuser/{referenceId}/apikey'),
+
     ],
 
     /**
@@ -51,9 +52,10 @@ return [
         'callback_url' => env('MOMO_DISBURSEMENT_CALLBACK_URL'),
 
         'url_paths' => [
-            'create_access_token' => env('MOMO_DISBURSMENT_CREATE_ACCESS_TOKEN_URL_PATH', '/disbursement/token/'),
-            'transfer' => env('MOMO_DISBURSMENT_TRANSFER_URL_PATH', '/disbursement/v1_0/transfer'),
-            'get_transfer_status' => env('MOMO_DISBURSMENT_GEl_TRANSFER_STATUS_URL_PATH', '/disbursement/v1_0/transfer/{referenceId}'),
+            'create_access_token' => env('MOMO_DISBURSEMENT_CREATE_ACCESS_TOKEN_URL_PATH', '/disbursement/token/'),
+            'transfer' => env('MOMO_DISBURSEMENT_TRANSFER_URL_PATH', '/disbursement/v1_0/transfer'),
+            'get_transfer_status' => env('MOMO_DISBURSEMENT_GEl_TRANSFER_STATUS_URL_PATH', '/disbursement/v1_0/transfer/{referenceId}'),
+            'get_account_balance' => env('MOMO_DISBURSEMENT_GET_ACCOUNT_BALANCE_URL_PATH', '/disbursement/v1_0/account/balance'),
         ],
     ],
 ];

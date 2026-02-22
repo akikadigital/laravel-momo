@@ -136,4 +136,25 @@ class DisbursementTest extends TestCase
 
         $this->assertEquals($body, $response);
     }
+
+    public function test_can_get_account_balance(): void
+    {
+        $this->fakeAccessToken();
+
+        $path = Config::string('momo.disbursement.url_paths.get_account_balance');
+        $url = $this->baseMomoUrl.$path;
+
+        $body = [
+            'availableBalance' => strval(fake()->randomNumber(4)),
+            'currency' => fake()->randomElement(Currency::cases())->value,
+        ];
+
+        Http::fake([
+            $url => Http::response($body, 200),
+        ]);
+
+        $response = (new Disbursement)->getAccountBalance();
+
+        $this->assertEquals($body, $response);
+    }
 }
