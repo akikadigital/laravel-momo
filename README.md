@@ -164,6 +164,35 @@ MoMo::createApiUser();
 $apiKey = MoMo::createApiKey();
 ```
 
+## Checking the Account Balance
+
+You can retrieve the MoMo account balance via the `Disbursement` product. The method returns an array with the available balance and currency.
+
+Example using the `MoMo` facade:
+
+```php
+use Akika\MoMo\Facades\MoMo;
+
+$balance = MoMo::disbursement()->getAccountBalance();
+
+// Example result:
+// [
+//   'availableBalance' => '123.45',
+//   'currency' => 'EUR',
+// ]
+```
+
+Example using the `MoMo` class directly:
+
+```php
+use Akika\MoMo\MoMo;
+
+$client = new MoMo();
+$balance = $client->disbursement()->getAccountBalance();
+```
+
+Check the returned array for `availableBalance` and `currency` when handling the response.
+
 ## Overriding configuration programmatically
 
 You can override configuration values at runtime either by constructing a `MoMoConfig` and passing it to a product, or by using the `with()` helper on the `MoMo` facade to create a client with temporary overrides.
