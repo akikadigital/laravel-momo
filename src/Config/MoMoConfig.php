@@ -2,6 +2,7 @@
 
 namespace Akika\MoMo\Config;
 
+use Akika\MoMo\Enums\MtnTargetEnvironment;
 use Illuminate\Support\Facades\Config;
 use UnexpectedValueException;
 
@@ -13,6 +14,7 @@ class MoMoConfig
         private readonly ?string $secondaryKey = null,
         private readonly ?string $userReferenceId = null,
         private ?string $apiKey = null,
+        private readonly ?MtnTargetEnvironment $targetEnvironment = null,
     ) {
         $this->env = Config::string('momo.env');
     }
@@ -25,6 +27,11 @@ class MoMoConfig
     public function getUserReferenceId(): string
     {
         return $this->userReferenceId ?? Config::string("momo.{$this->env}.user_reference_id");
+    }
+
+    public function getTargetEnvironment(): string
+    {
+        return $this->targetEnvironment->value ?? Config::string('momo.target_environment');
     }
 
     public function getApiKey(): string

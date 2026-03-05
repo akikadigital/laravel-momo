@@ -8,16 +8,14 @@ use Illuminate\Support\Facades\Http;
 
 class GetTransferStatusAction
 {
-    public string $env;
-
     public string $path;
 
     public string $url;
 
     public function __construct(public MoMoConfig $moMoConfig = new MoMoConfig)
     {
-        $this->env = Config::string('momo.env');
-        $baseUrl = Config::string("momo.{$this->env}.base_url");
+        $env = Config::string('momo.env');
+        $baseUrl = Config::string("momo.{$env}.base_url");
         $path = Config::string('momo.disbursement.url_paths.get_transfer_status');
         $this->url = $baseUrl.$path;
     }
@@ -34,7 +32,7 @@ class GetTransferStatusAction
             ->withToken($accessToken)
             ->withHeaders([
                 'Ocp-Apim-Subscription-Key' => $this->moMoConfig->getSecondaryKey(),
-                'X-Target-Environment' => $this->env,
+                'X-Target-Environment' => $this->moMoConfig->getTargetEnvironment(),
             ])
             ->get($this->url)
             ->throw()

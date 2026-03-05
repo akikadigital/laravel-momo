@@ -5,6 +5,12 @@ return [
     // Allowed Values: sandbox/production
     'env' => env('MOMO_ENV', 'sandbox'),
 
+    /**
+     * See https://momoapi.mtn.com/api-documentation/common-error
+     * The correct values can be found under NOT_ALLOWED_TARGET_ENVIRONMENT
+     */
+    'target_environment' => env('MOMO_TARGET_ENVIRONMENT', 'sandbox'),
+
     'provider_callback_host' => env('MOMO_CALLBACK_HOST'),
 
     /**

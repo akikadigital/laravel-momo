@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class GetAccountBalanceAction
 {
-    public string $env;
+    public string $targetEnvironment;
 
     public string $path;
 
@@ -16,8 +16,8 @@ class GetAccountBalanceAction
 
     public function __construct(public MoMoConfig $moMoConfig = new MoMoConfig)
     {
-        $this->env = Config::string('momo.env');
-        $baseUrl = Config::string("momo.{$this->env}.base_url");
+        $env = Config::string('momo.env');
+        $baseUrl = Config::string("momo.{$env}.base_url");
         $path = Config::string('momo.disbursement.url_paths.get_account_balance');
         $this->url = $baseUrl.$path;
     }
@@ -31,7 +31,7 @@ class GetAccountBalanceAction
             ->withToken($accessToken)
             ->withHeaders([
                 'Ocp-Apim-Subscription-Key' => $this->moMoConfig->getSecondaryKey(),
-                'X-Target-Environment' => $this->env,
+                'X-Target-Environment' => $this->moMoConfig->getTargetEnvironment(),
             ])
             ->get($this->url)
             ->throw()

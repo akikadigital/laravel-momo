@@ -4,6 +4,7 @@ namespace Akika\MoMo\Tests\Actions\Disbursement;
 
 use Akika\MoMo\Actions\Disbursment\TransferAction;
 use Akika\MoMo\Enums\Currency;
+use Akika\MoMo\Enums\MtnTargetEnvironment;
 use Akika\MoMo\Tests\TestCase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
@@ -12,7 +13,7 @@ use Illuminate\Support\Str;
 
 class TransferActionTest extends TestCase
 {
-    public string $env;
+    public string $targetEnvironment;
 
     public string $secondaryKey;
 
@@ -28,12 +29,15 @@ class TransferActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->env = $env = fake()->randomElement(['sandbox', 'production']);
+        $env = fake()->randomElement(['sandbox', 'production']);
         Config::set('momo.env', $env);
         Config::set("momo.{$env}.secondary_key", $this->secondaryKey = fake()->uuid());
         Config::set("momo.{$env}.user_reference_id", $this->xReferenceId = fake()->uuid());
         Config::set('momo.provider_callback_host', $this->callbackHost = fake()->domainName());
         Config::set("momo.{$env}.base_url", $baseUrl = fake()->url());
+
+        $this->targetEnvironment = fake()->randomElement(MtnTargetEnvironment::cases())->value;
+        Config::set('momo.target_environment', $this->targetEnvironment);
 
         Config::set('momo.disbursement.callback_url', $this->callbackUrl = fake()->url());
 
@@ -77,7 +81,7 @@ class TransferActionTest extends TestCase
         $this->assertTrue($request->hasHeader('Ocp-Apim-Subscription-Key', $this->secondaryKey));
         $this->assertTrue($request->hasHeader('X-Callback-Url', $this->callbackUrl));
         $this->assertTrue($request->hasHeader('X-Reference-Id', $tReferenceId));
-        $this->assertTrue($request->hasHeader('X-Target-Environment', $this->env));
+        $this->assertTrue($request->hasHeader('X-Target-Environment', $this->targetEnvironment));
         $this->assertEquals("Bearer {$accessToken}", $request->header('Authorization')[0]);
 
         $this->assertTrue(Str::isUuid($tReferenceId));
@@ -118,7 +122,7 @@ class TransferActionTest extends TestCase
         $this->assertTrue($request->hasHeader('Ocp-Apim-Subscription-Key', $this->secondaryKey));
         $this->assertTrue($request->hasHeader('X-Callback-Url', $this->callbackUrl));
         $this->assertTrue($request->hasHeader('X-Reference-Id', $tReferenceId));
-        $this->assertTrue($request->hasHeader('X-Target-Environment', $this->env));
+        $this->assertTrue($request->hasHeader('X-Target-Environment', $this->targetEnvironment));
         $this->assertEquals("Bearer {$accessToken}", $request->header('Authorization')[0]);
 
         $this->assertTrue(Str::isUuid($tReferenceId));

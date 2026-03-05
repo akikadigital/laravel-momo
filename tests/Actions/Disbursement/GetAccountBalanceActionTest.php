@@ -4,6 +4,7 @@ namespace Akika\MoMo\Tests\Actions\Disbursement;
 
 use Akika\MoMo\Actions\Disbursment\GetAccountBalanceAction;
 use Akika\MoMo\Enums\Currency;
+use Akika\MoMo\Enums\MtnTargetEnvironment;
 use Akika\MoMo\Tests\TestCase;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 
 class GetAccountBalanceActionTest extends TestCase
 {
-    public string $env;
+    public string $targetEnvironment;
 
     public string $secondaryKey;
 
@@ -21,11 +22,14 @@ class GetAccountBalanceActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->env = $env = fake()->randomElement(['sandbox', 'production']);
+        $env = fake()->randomElement(['sandbox', 'production']);
         Config::set('momo.env', $env);
         Config::set("momo.{$env}.secondary_key", $this->secondaryKey = fake()->uuid());
         Config::set("momo.{$env}.user_reference_id", fake()->uuid());
         Config::set("momo.{$env}.base_url", $baseUrl = fake()->url());
+
+        $this->targetEnvironment = fake()->randomElement(MtnTargetEnvironment::cases())->value;
+        Config::set('momo.target_environment', $this->targetEnvironment);
 
         $path = Config::string('momo.disbursement.url_paths.get_account_balance');
         $this->url = $baseUrl.$path;
@@ -68,7 +72,7 @@ class GetAccountBalanceActionTest extends TestCase
         });
 
         $this->assertTrue($request->hasHeader('Ocp-Apim-Subscription-Key', $this->secondaryKey));
-        $this->assertTrue($request->hasHeader('X-Target-Environment', $this->env));
+        $this->assertTrue($request->hasHeader('X-Target-Environment', $this->targetEnvironment));
         $this->assertEquals("Bearer {$accessToken}", $request->header('Authorization')[0]);
     }
 }

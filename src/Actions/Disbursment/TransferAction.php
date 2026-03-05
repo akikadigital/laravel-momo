@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 
 class TransferAction
 {
-    public string $env;
-
     public string $callbackUrl;
 
     public string $url;
@@ -20,8 +18,8 @@ class TransferAction
     {
         $this->callbackUrl = Config::string('momo.disbursement.callback_url');
 
-        $this->env = Config::string('momo.env');
-        $baseUrl = Config::string("momo.{$this->env}.base_url");
+        $env = Config::string('momo.env');
+        $baseUrl = Config::string("momo.{$env}.base_url");
         $path = Config::string('momo.disbursement.url_paths.transfer');
         $this->url = $baseUrl.$path;
     }
@@ -54,7 +52,7 @@ class TransferAction
                 'Ocp-Apim-Subscription-Key' => $this->moMoConfig->getSecondaryKey(),
                 'X-Callback-Url' => $this->callbackUrl,
                 'X-Reference-Id' => $referenceId,
-                'X-Target-Environment' => $this->env,
+                'X-Target-Environment' => $this->moMoConfig->getTargetEnvironment(),
             ])
             ->post($this->url, $body)
             ->throw();
