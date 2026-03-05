@@ -36,6 +36,7 @@ Set environment variables below in your `.env`:
 
 ```bash
 MOMO_ENV=sandbox
+MOMO_TARGET_ENVIRONMENT=sandbox
 MOMO_CALLBACK_HOST=example.com # this should be your domain without the https part or path
 MOMO_DISBURSEMENT_CALLBACK_URL=https://example.com/api/callbacks/momo # this should match the path to your callback route
 MOMO_SANDBOX_SECONDARY_KEY=your_secondary_key_here
@@ -49,7 +50,14 @@ MOMO_PRODUCTION_API_KEY=your_api_key_here   # set after running the create-api-k
 > Note:  
 > When using `sandbox` mode, test using the Euro (EUR) currency, as that is the only currency that seems to work in sandbox mode.
 
-For production, set `MOMO_ENV=production`.
+For production, set:
+
+- You can find all target environments [on this page.](https://momoapi.mtn.com/api-documentation/common-error)
+
+```bash
+MOMO_ENV=production
+MOMO_TARGET_ENVIRONMENT=mtnghana
+```
 
 The full config file is at [config/momo.php](config/momo.php).
 
@@ -206,6 +214,7 @@ $client = new MoMo(
     'your_secondary_key',       // overrides momo.<env>.secondary_key
 	'your_user_reference_id',   // overrides momo.<env>.user_reference_id
 	'your_api_key',
+    'your_target_environment'  // overrides momo.target_environment
 )
 $referenceId = $client->disbursement()->transfer(
 	10.00,
@@ -225,6 +234,7 @@ $referenceId = MoMo::with(
 	'your_secondary_key',
 	'your_user_reference_id',
 	'your_api_key',
+    'your_target_environment'
 )->disbursement()->transfer(
 	10.00,
 	Currency::UgandaShilling,
