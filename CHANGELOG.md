@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-momo` will be documented in this file.
 
+## 0.0.5 - 2026-03-05
+
+- Updates MoMo Facade
+
 ## 0.0.4 - 2026-03-05
 
 - Updates MoMo environments
