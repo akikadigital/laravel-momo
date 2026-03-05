@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-momo` will be documented in this file.
 
+## 0.0.4 - 2026-03-05
+
+- Updates MoMo environments
+
 ## v0.0.3 - 2026-02-22
 
 - Adds fetch balance api
