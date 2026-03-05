@@ -6,6 +6,7 @@ use Akika\MoMo\Actions\CreateApiKeyAction;
 use Akika\MoMo\Actions\CreateApiUserAction;
 use Akika\MoMo\Actions\GetApiUserAction;
 use Akika\MoMo\Config\MoMoConfig;
+use Akika\MoMo\Enums\MtnTargetEnvironment;
 use Akika\MoMo\Products\Disbursement;
 
 class MoMo
@@ -16,19 +17,22 @@ class MoMo
         ?string $secondaryKey = null,
         ?string $userReferenceId = null,
         ?string $apiKey = null,
+        ?MtnTargetEnvironment $targetEnvironment = null,
     ) {
-        $this->moMoConfig = new MoMoConfig($secondaryKey, $userReferenceId, $apiKey);
+        $this->moMoConfig = new MoMoConfig($secondaryKey, $userReferenceId, $apiKey, $targetEnvironment);
     }
 
     public function with(
         ?string $secondaryKey = null,
         ?string $userReferenceId = null,
         ?string $apiKey = null,
+        ?MtnTargetEnvironment $targetEnvironment = null,
     ): self {
         return new self(
             $secondaryKey,
             $userReferenceId,
             $apiKey,
+            $targetEnvironment,
         );
     }
 

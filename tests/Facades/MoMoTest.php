@@ -2,6 +2,7 @@
 
 namespace Akika\MoMo\Tests\Facades;
 
+use Akika\MoMo\Enums\MtnTargetEnvironment;
 use Akika\MoMo\Facades\MoMo;
 use Akika\MoMo\Products\Disbursement;
 use Akika\MoMo\Tests\TestCase;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Http;
 class MoMoTest extends TestCase
 {
     public string $env;
+
+    public string $targetEnvironment;
 
     public string $secondaryKey;
 
@@ -32,6 +35,8 @@ class MoMoTest extends TestCase
         Config::set('momo.provider_callback_host', $this->callbackHost = fake()->domainName());
         Config::set("momo.{$env}.base_url", $this->baseMomoUrl = fake()->url());
 
+        $this->targetEnvironment = fake()->randomElement(MtnTargetEnvironment::cases())->value;
+        Config::set('momo.target_environment', $this->targetEnvironment);
     }
 
     public function test_can_create_api_users(): void
@@ -139,10 +144,15 @@ class MoMoTest extends TestCase
 
     public function test_can_override_momo_config(): void
     {
+        $targetEnvironments = collect(MtnTargetEnvironment::cases())
+            ->filter(fn (MtnTargetEnvironment $item) => $item->value !== $this->targetEnvironment)
+            ->all();
+
         $disbursement = MoMo::with(
             $secondaryKey = fake()->uuid(),
             $userReferenceId = fake()->uuid(),
             $apiKey = fake()->uuid(),
+            $targetEnvironment = fake()->randomElement($targetEnvironments),
         )
             ->disbursement();
 
@@ -150,5 +160,6 @@ class MoMoTest extends TestCase
         $this->assertEquals($secondaryKey, $disbursement->moMoConfig->getSecondaryKey());
         $this->assertEquals($userReferenceId, $disbursement->moMoConfig->getUserReferenceId());
         $this->assertEquals($apiKey, $disbursement->moMoConfig->getApiKey());
+        $this->assertEquals($targetEnvironment->value, $disbursement->moMoConfig->getTargetEnvironment());
     }
 }
